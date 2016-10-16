@@ -1,7 +1,7 @@
 (function(){
 
 'use strict';
-var Auth = angular.module('Auth', ['ui.router']);
+var Auth = angular.module('Auth', ['ui.router', 'ApplicationConfig']);
 
 Auth.factory('Authenticate', ['$http','AppConfig', '$window', function($http, AppConfig, $window){
 	return {
@@ -9,7 +9,7 @@ Auth.factory('Authenticate', ['$http','AppConfig', '$window', function($http, Ap
 			return $http.post(AppConfig.loginUrl, user);
 		},
 		register: function(user){
-
+			return $http.post(AppConfig.signupUrl, user);
 		},
 		isAuthenticated: function(){
 			var token = $window.localStorage.token;
@@ -22,6 +22,19 @@ Auth.factory('Authenticate', ['$http','AppConfig', '$window', function($http, Ap
 		saveToken: function(token){
 			//save to localStorage
 			$window.localStorage.token = token;
+		}
+	}
+}]);
+
+//Emit Unauthorized
+Auth.factory('OnUnauthorized', ['$q', '$rootScope', 'AppConfig', function($q, $rootScope, AppConfig){
+	return {
+		responseError: function(res){
+			console.log(res);
+			if(res.status == 401){
+				$rootScope.$emit(AppConfig.broadcast.Unauthorized);
+			}
+			return $q.reject(res);
 		}
 	}
 }]);

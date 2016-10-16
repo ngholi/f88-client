@@ -17,7 +17,7 @@ angular.module('MainApp', [
   'ApplicationConfig',
   'BlurAdmin.pages',
   'Auth', 'Login'
-]).config(['$stateProvider', function($stateProvider){
+]).config(['$stateProvider', 'toastrConfig', '$httpProvider', function($stateProvider, toastrConfig, $httpProvider){
   $stateProvider
     .state('login', {
       url: '/login',
@@ -26,21 +26,48 @@ angular.module('MainApp', [
       controller: 'LoginCtrl'
     })
     .state('main', {
-      url: '/main',
+      url: '/home',
       templateUrl: 'layout.html',
       title: '',
       abstract: true,
       controller: 'MainCtrl'
-    })
-}]).controller('MainCtrl', ['Authenticate', '$state', '$http', '$window', '$scope', function(auth, $state, $http, $window, $scope){
+    });
+
+  //config default toast option
+  angular.extend(toastrConfig, {
+    autoDismiss: false,
+    tapToDismiss: true,
+    timeOut: '3000',
+    extendedTimeOut: '2000',
+    progressBar: true,
+    maxOpened: 0,    
+    newestOnTop: true,
+    positionClass: 'toast-top-right',
+    preventDuplicates: false,
+    preventOpenDuplicates: false,
+    target: 'body'
+  });
+
+  //add default action when unauthorized
+  $httpProvider.interceptors.push('OnUnauthorized');
+}])
+.run(['$rootScope', 'AppConfig', 'toastr', '$state', '$window', function($rootScope, AppConfig, toastr, $state, $window){
+  $rootScope.$on(AppConfig.broadcast.Unauthorized, function(){
+    toastr.error(AppConfig.msg.FORCE_OUT_UNAUTHORIZED, AppConfig.msg.UNAUTHORIZED);
+    $state.go('login');
+    delete $window.localStorage.token;
+    delete $http.defaults.headers.common.Authorization;
+  });
+}])
+.controller('MainCtrl', ['Authenticate', '$state', '$http', '$window', '$scope', function(auth, $state, $http, $window, $scope){
   if(!auth.isAuthenticated()){
     $state.go('login');
     return;
   }
 
   //add token to request header
-  $http.defaults.headers.common.Authorization = $window.localStorage.token;
-  
+  $http.defaults.headers.common.Authorization = 'Bearer ' + $window.localStorage.token;
+
   $scope.signout = function(){
     delete $http.defaults.headers.common.Authorization;
     delete $window.localStorage.token;
