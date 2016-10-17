@@ -1,10 +1,11 @@
 (function(){
 
 'use strict';
+var host = 'https://localhost:3000/';
 angular.module('ApplicationConfig', [])
 .value('AppConfig', {
-	loginUrl: 'https://localhost:3000/authenticate/login',
-	signupUrl: 'https://localhost:3000/authenticate/register',
+	loginUrl: host + 'authenticate/login',
+	signupUrl: host + 'users/create',
 	msg: {
 		CREATING_NEW_USER: 'Creating new user',
 		USER_CREATED: 'User created',
@@ -16,6 +17,7 @@ angular.module('ApplicationConfig', [])
 	},
 	broadcast: {
 		Unauthorized: 'Unauthorized',
+		SubmitForm: 'submit',
 	},
 	sqlError: {
 		ER_DUP_ENTRY: 1062

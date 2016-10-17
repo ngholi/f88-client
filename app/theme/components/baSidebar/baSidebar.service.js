@@ -21,7 +21,6 @@
 
         this.getMenuItems = function() {
           var states = defineMenuItemStates();
-          console.log(states);
           var menuItems = states.filter(function(item) {
             return item.level == 0;
           });

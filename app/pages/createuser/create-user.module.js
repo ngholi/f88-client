@@ -22,7 +22,7 @@
       }
 
       $scope.signup = function(){
-        $scope.$broadcast('submit');
+        $scope.$broadcast(AppConfig.broadcast.SubmitForm);
         if($scope.completePercent() < 1){
           toastr.info(AppConfig.msg.NOT_FILL_ALL_REQUIRED_FIELD);
           return;
@@ -30,7 +30,6 @@
         var signupToast = toastr.info(AppConfig.msg.CREATING_NEW_USER);
         auth.register($scope.user).then(function(res){
           //signup successfully
-          console.log(res);
           toastr.clear(signupToast);
           toastr.success(AppConfig.msg.USER_CREATED);
         }, function(res){
@@ -72,13 +71,13 @@
       }
     })
 
-    .directive('formSubmitted', function(){
+    .directive('formSubmitted', function(AppConfig){
       return {
         restrict: 'A',
         require: 'form',
         link: function(scope, elem, attr, ctrl){
           ctrl.$submitted = false;
-          scope.$on('submit', function(){
+          scope.$on(AppConfig.broadcast.SubmitForm, function(){
             ctrl.$submitted = true;
           });
         }
