@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <form name="form">
+    <form form-submitted name="form">
     <h3 class="with-line">General Information</h3>
 
     <div class="row">
@@ -45,7 +45,7 @@
 
           <div class="col-sm-9">
             <input type="email" class="form-control" id="inputFirstName" placeholder="" value="" ng-model="user.email" name="email" required>
-            <p ng-show="form.email.$invalid && form.email.$touched" class="help-block">Email is not valid</p>
+            <p ng-show="form.email.$invalid && (!form.email.$pristine || form.$submitted)" class="help-block">Email is not valid</p>
           </div>
         </div>
         <div class="form-group row clearfix">
@@ -53,7 +53,7 @@
 
           <div class="col-sm-9">
             <input type="text" class="form-control" id="inputLastName" placeholder="" value="" ng-model="user.name" name="name" required ng-minLength="3">
-            <p ng-show="form.name.$invalid && form.name.$touched" class="help-block">Name must greater than 2 word</p>
+            <p ng-show="form.name.$invalid && (!form.name.$pristine || form.$submitted)" class="help-block">Name must greater than 2 word</p>
           </div>
         </div>
       </div>
@@ -90,7 +90,7 @@
 
           <div class="col-sm-9">
             <input type="password" class="form-control" id="inputPassword" placeholder="" value="" ng-model="user.password" name="password" ng-minLength="8" required>
-            <p ng-show="form.password.$invalid && form.password.$touched" class="help-block">Password must be 8 or more character</p>
+            <p ng-show="form.password.$invalid && (!form.password.$pristine || form.$submitted)" class="help-block">Password must be 8 or more character</p>
           </div>
         </div>
       </div>
@@ -100,7 +100,7 @@
 
           <div class="col-sm-9">
             <input type="password" class="form-control" id="inputConfirmPassword" placeholder="" ng-model="user.confirm" name="confirm" ng-minLength="8">
-            <p ng-show="form.confirm.$touched && user.password !== user.confirm" class="help-block">Confirm password is not match</p>
+            <p ng-show="(!form.confirm.$pristine || form.$submitted) && user.password !== user.confirm" class="help-block">Confirm password is not match</p>
           </div>
         </div>
       </div>

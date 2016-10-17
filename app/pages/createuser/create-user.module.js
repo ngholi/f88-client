@@ -22,6 +22,7 @@
       }
 
       $scope.signup = function(){
+        $scope.$broadcast('submit');
         if($scope.completePercent() < 1){
           toastr.info(AppConfig.msg.NOT_FILL_ALL_REQUIRED_FIELD);
           return;
@@ -51,7 +52,7 @@
       function checkValid(value){
         try{
           if(value == 'email')
-            return $scope.user[value].search(/^.+@.+\..+$/i) >= 0;
+            return $scope.user[value].search(/^.+@(\w|\.)+$/i) >= 0;
           else if(value == 'name')
             return $scope.user[value].search(/^\w{3}[\w|\s]*$/i) >= 0;
           else if(value == 'password')
@@ -70,6 +71,19 @@
         return input*100 + '%';
       }
     })
+
+    .directive('formSubmitted', function(){
+      return {
+        restrict: 'A',
+        require: 'form',
+        link: function(scope, elem, attr, ctrl){
+          ctrl.$submitted = false;
+          scope.$on('submit', function(){
+            ctrl.$submitted = true;
+          });
+        }
+      };
+    });
   ;
 
   /** @ngInject */
