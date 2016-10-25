@@ -1,0 +1,40 @@
+<style type="text/css">
+  input.ng-dirty.ng-invalid {
+    border: 1px solid #a94442;
+  }
+  .help-block{
+    color: #a94442;
+  }
+</style>
+<form class="form-horizontal" name="form">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Name*</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="inputEmail3" placeholder="Department name" required ng-minLength="2"  ng-model="departmentName" name="departmentName">
+      <p ng-show="!form.departmentName.$pristine && form.departmentName.$invalid" class="help-block">Department name is more than 1 word</p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Manager</label>
+    <div class="col-sm-10">
+      <select class="form-control selectpicker with-search" data-live-search="true" title="Name or email" 
+              ng-model="selectedUser" selectpicker
+              ng-options="item as (item.name + ' - ' + item.email) for item in userList">
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Belongs</label>
+    <div class="col-sm-10">
+      <select class="form-control selectpicker with-search" data-live-search="true" title="Department Name" 
+              ng-model="selectedDepartment" selectpicker data-max-options="5"
+              ng-options="item as (item.id + ' - ' + item.name) for item in departmentList">
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary" ng-disabled="form.departmentName.$invalid" ng-click="edit()">Edit</button>
+    </div>
+  </div>
+</form>

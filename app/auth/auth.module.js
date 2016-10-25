@@ -6,10 +6,7 @@ var Auth = angular.module('Auth', ['ui.router', 'ApplicationConfig']);
 Auth.factory('Authenticate', ['$http','AppConfig', '$window', function($http, AppConfig, $window){
 	return {
 		login: function(user){
-			return $http.post(AppConfig.loginUrl, user);
-		},
-		register: function(user){
-			return $http.post(AppConfig.signupUrl, user);
+			return $http.post(AppConfig.api.loginUrl, user);
 		},
 		isAuthenticated: function(){
 			var token = $window.localStorage.token;

@@ -1,0 +1,41 @@
+<style type="text/css">
+.info-box {
+  transition: all linear 5s;
+}
+.info-box.ng-hide {
+  opacity: 0;
+}
+</style>
+<div class="row">
+  <div class="col-md-6">
+    <div ba-panel ba-panel-title="Basic Action" ba-panel-class="with-scroll tree-panel">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="control-side text-center">
+            <div>
+              <button class="btn btn-primary" ng-click="openAddDepartment()">Add</button>
+            </div>
+            <div>
+              <button class="btn btn-primary" ng-click="collapse()">Collapse All</button>
+            </div>
+            <div>
+              <button class="btn btn-primary" ng-click="expand()">Expand All</button>
+            </div>
+            <div>
+              <button class="btn btn-primary" ng-click="refresh()">Refresh</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <div js-tree="basicConfig" ng-model="treeData" should-apply="applyModelChanges()" tree="treeInstance" tree-events-obj="treeEventObj"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div ba-panel ba-panel-title="Information" ba-panel-class="with-scroll tree-panel" id="info">
+      <ui-view></ui-view>
+    </div>
+  </div>
+</div>
+</div>

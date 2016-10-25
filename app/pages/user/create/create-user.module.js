@@ -5,10 +5,10 @@
 (function () {
   'use strict';
 
-  angular.module('BlurAdmin.pages.createUser', ['Auth', 'ApplicationConfig'])
+  angular.module('BlurAdmin.pages.user')
     .config(routeConfig)
 
-    .controller('RegisterCtrl', ['$scope', 'Authenticate', 'toastr', 'AppConfig', function($scope, auth, toastr, AppConfig){
+    .controller('RegisterCtrl', ['$scope', 'UserAPI', 'toastr', 'AppConfig', '$timeout', function($scope, userApi, toastr, AppConfig, $timeout){
       $scope.user = {};
       $scope.completePercent = function(){
         var required = ['email', 'name', 'password', 'confirm'];
@@ -27,15 +27,23 @@
           toastr.info(AppConfig.msg.NOT_FILL_ALL_REQUIRED_FIELD);
           return;
         }
-        var signupToast = toastr.info(AppConfig.msg.CREATING_NEW_USER);
-        auth.register($scope.user).then(function(res){
+        var signupToast;
+
+        //Creating user toast appear when slow connection, 300ms after hit signup
+        var timeout = $timeout(function(){
+          signupToast = toastr.info(AppConfig.msg.CREATING_NEW_USER);
+        }, 300);
+        userApi.create($scope.user).then(function(res){
           //signup successfully
-          toastr.clear(signupToast);
+          $timeout.cancel(timeout);
+          if(signupToast)
+            toastr.clear(signupToast);
           toastr.success(AppConfig.msg.USER_CREATED);
         }, function(res){
           //signup fail
-          console.log(res);
-          toastr.clear(signupToast);
+          $timeout.cancel(timeout);
+          if(signupToast)
+            toastr.clear(signupToast);
           if(typeof res.data.message == 'object'){
             if(res.data.message.original.errno == AppConfig.sqlError.ER_DUP_ENTRY){
               //The unique column has been duplicate, that is email
@@ -88,12 +96,12 @@
   /** @ngInject */
   function routeConfig($stateProvider) {
     $stateProvider
-        .state('main.create-user', {
+        .state('main.user.create-user', {
           url: '/create-user',
-          templateUrl: 'app/pages/createuser/create-user.html',
+          templateUrl: 'app/pages/user/create/create-user.html',
           title: 'Create User',
           sidebarMeta: {
-            icon: 'ion-ios-people',
+            icon: 'ion-person-add',
             order: 600,
           },
           controller: 'RegisterCtrl'

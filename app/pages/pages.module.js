@@ -9,7 +9,8 @@
     'ui.router',
 
     'BlurAdmin.pages.dashboard',
-    'BlurAdmin.pages.createUser'
+    'BlurAdmin.pages.user',
+    'BlurAdmin.pages.department'
   ])
       .config(routeConfig);
 

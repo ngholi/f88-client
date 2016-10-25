@@ -14,6 +14,7 @@ angular.module('MainApp', [
   'angular-progress-button-styles',
 
   'BlurAdmin.theme',
+  'SessionStorage',
   'ApplicationConfig',
   'BlurAdmin.pages',
   'Auth', 'Login'
@@ -59,7 +60,8 @@ angular.module('MainApp', [
     delete $http.defaults.headers.common.Authorization;
   });
 }])
-.controller('MainCtrl', ['Authenticate', '$state', '$http', '$window', '$scope', function(auth, $state, $http, $window, $scope){
+.controller('MainCtrl', ['Authenticate', '$state', '$http', '$window', '$scope', 'Storage', 'UserAPI', 'AppConfig', 'DepartmentAPI',
+  function(auth, $state, $http, $window, $scope, Storage, userApi, AppConfig, departmentApi){
   if(!auth.isAuthenticated()){
     $state.go('login');
     return;
@@ -67,6 +69,23 @@ angular.module('MainApp', [
 
   //add token to request header
   $http.defaults.headers.common.Authorization = 'Bearer ' + $window.localStorage.token;
+
+  //fetch all user and department from server
+  if(!Storage.get(AppConfig.storage.users)){
+    userApi.all().then(function(res){
+      //successfully, save data to storage
+      Storage.set(AppConfig.storage.users, res.data.users);
+      console.log(res.data.users, Storage.get(AppConfig.storage.users));
+      $scope.$broadcast(AppConfig.broadcast.GetAllUsersDone);
+    });
+  }
+  if(!Storage.get(AppConfig.storage.departments)){
+    departmentApi.all().then(function(res){
+      //successfully, save data to storage
+      Storage.set(AppConfig.storage.departments, res.data.departments);
+      $scope.$broadcast(AppConfig.broadcast.GetAllDepartmentsDone);
+    });
+  }
 
   $scope.signout = function(){
     delete $http.defaults.headers.common.Authorization;
