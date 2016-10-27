@@ -26,7 +26,7 @@
       'version': 1
     };
 
-    $scope.ignoreChanges = false;
+  $scope.ignoreChanges = true;
 
   $scope.treeEventObj = {
     select_node: function(e, data){
@@ -34,20 +34,20 @@
     },
     ready: function(){
       $timeout(function(){
-        $scope.ignoreChanges =false;
+        $scope.ignoreChanges =true;
       });
     }
   };
 
   if(!Storage.get(AppConfig.storage.departments)){
     $scope.$on(AppConfig.broadcast.GetAllDepartmentsDone, function(){
-      let departmentList = Storage.get(AppConfig.storage.departments);
+      var departmentList = Storage.get(AppConfig.storage.departments);
       $scope.treeData = Normalize.toTree(departmentList);
       $scope.departmentList = departmentList;
     });
   }
   else{
-    let departmentList = Storage.get(AppConfig.storage.departments);
+    var departmentList = Storage.get(AppConfig.storage.departments);
     $scope.treeData = Normalize.toTree(departmentList);
     $scope.departmentList = departmentList;
   }
@@ -127,7 +127,9 @@
         opened: false
       }
     });
-    $scope.basicConfig.version++;
+    $timeout(function(){
+      $scope.basicConfig.version++;
+    }, 100);
   });
  }]);
 

@@ -56,13 +56,6 @@ Info.controller('DepartmentInfoCtrl', ['$stateParams', 'DepartmentNormalize', 'U
 			toastr.error(AppConfig.msg.EDIT_FAIL);
 		});
 	}
-
-	window.show = function(){
-		return $scope.departmentList;
-	}
-	window.showSelected = function(){
-		return $scope.selectedDepartment;
-	}
 }]);
 
 })();

@@ -27,10 +27,16 @@ Department.controller('CreateDepartmentCtrl', ['$scope', 'DepartmentAPI', 'toast
 		DepartmentService.create(department).then(function(res){
 			//create successfully
 			console.log(res);
-			let department = res.data.department;
+			var department = res.data.department;
 			$scope.departmentList.push(department);
 			$scope.$emit(AppConfig.broadcast.AddedDepartment, department);
 			toastr.success(AppConfig.msg.DEPARTMENT_CREATED);
+
+			//reset form
+			$scope.departmentName = '';
+			$scope.selectedUser = undefined;
+			$scope.selectedDepartment = undefined;
+			$scope.form.$setPristine();
 		}).catch(function(res){
 			//create fail
 			toastr.error(AppConfig.msg.CREATE_DEPARTMENT_ERROR);
