@@ -15,11 +15,11 @@ Department.config(['$stateProvider', function($stateProvider){
 	});
 }])
 
-Department.controller('CreateDepartmentCtrl', ['$scope', 'DepartmentAPI', 'toastr', 'AppConfig', 'Storage', function($scope, DepartmentService, toastr, AppConfig, Storage){
+Department.controller('CreateDepartmentCtrl', ['$scope', 'DepartmentAPI', 'toastr', 'AppConfig', 'Storage', 'AntiXSS', function($scope, DepartmentService, toastr, AppConfig, Storage, AntiXSS){
 
 	$scope.add = function(){
 		var department = {};
-		department.name = $scope.departmentName;
+		department.name = AntiXSS.encode($scope.departmentName);
 		if($scope.selectedUser)
 			department.managerId = $scope.selectedUser.id;
 		if($scope.selectedDepartment)

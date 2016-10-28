@@ -51,6 +51,7 @@ angular.module('MainApp', [
 
   //add default action when unauthorized
   $httpProvider.interceptors.push('OnUnauthorized');
+  $httpProvider.interceptors.push('OnConnectToServerFail');
 }])
 .run(['$rootScope', 'AppConfig', 'toastr', '$state', '$window', function($rootScope, AppConfig, toastr, $state, $window){
   $rootScope.$on(AppConfig.broadcast.Unauthorized, function(){
@@ -58,6 +59,13 @@ angular.module('MainApp', [
     $state.go('login');
     delete $window.localStorage.token;
     delete $http.defaults.headers.common.Authorization;
+  });
+  $rootScope.$on(AppConfig.broadcast.ConnectFail, function(){
+    toastr.error(AppConfig.msg.TRY_CONNECT_TO_API_FIRST, AppConfig.msg.CANT_CONNECT_TO_SERVER, {
+      onTap: function(){
+        $window.open(AppConfig.api.host);
+      }
+    });
   });
 }])
 .controller('MainCtrl', ['Authenticate', '$state', '$http', '$window', '$scope', 'Storage', 'UserAPI', 'AppConfig', 'DepartmentAPI',
@@ -92,4 +100,36 @@ angular.module('MainApp', [
     delete $window.localStorage.token;
     $state.go('login');
   }
-}]);
+}])
+.factory('OnConnectToServerFail', ['$rootScope', '$q', 'AppConfig', function($rootScope, $q, AppConfig){
+  return {
+    responseError: function(res){
+      if(res.status == -1){
+        $rootScope.$emit(AppConfig.broadcast.ConnectFail);
+      }
+      return $q.reject(res);
+    }
+  };
+}])
+.factory('AntiXSS', function(){
+  return {
+    encode: function(str){
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\//g, '&#x2F;');
+    },
+    decode: function(str){
+      return str
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&amp;/g, '&')
+        .replace(/&#x2F;/g, '/');
+    }
+  };
+});

@@ -8,6 +8,7 @@ var apiHost = 'https://localhost:3000/';
 angular.module('ApplicationConfig', [])
 .value('AppConfig', {
 	api: {
+		host: apiHost,
 		loginUrl: apiHost + 'authenticate/login',
 		signupUrl: apiHost + 'users/create',
 		createDepartment: apiHost + 'departments/create',
@@ -30,6 +31,8 @@ angular.module('ApplicationConfig', [])
 		EDIT_SUCCESSFULLY: 'Edit successfully',
 		EDIT_FAIL: 'Edit fail',
 		ERROR_SELF_DEPEND: 'Department can\'t belong to itself. Please choose another department!',
+		CANT_CONNECT_TO_SERVER: 'Can\'t connect to server',
+		TRY_CONNECT_TO_API_FIRST: 'There are some connection issues. Tap to try connect to ' + apiHost,
 	},
 	broadcast: {
 		Unauthorized: 'Unauthorized',
@@ -38,6 +41,7 @@ angular.module('ApplicationConfig', [])
 		GetAllDepartmentsDone: 'get-all-department-done',
 		EditedDepartment: 'edited-department',
 		AddedDepartment: 'added-department',
+		ConnectFail: 'connect-fail',
 	},
 	sqlError: {
 		ER_DUP_ENTRY: 1062

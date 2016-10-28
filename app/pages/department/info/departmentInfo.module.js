@@ -15,12 +15,12 @@ Info.config(['$stateProvider', function($stateProvider){
 	});
 }]);
 
-Info.controller('DepartmentInfoCtrl', ['$stateParams', 'DepartmentNormalize', 'UserNormalize', '$scope', 'DepartmentAPI', 'toastr', 'AppConfig',
-	function($stateParams, DepartmentNormalize, UserNormalize, $scope, DepartmentApi, toastr, AppConfig){
+Info.controller('DepartmentInfoCtrl', ['$stateParams', 'DepartmentNormalize', 'UserNormalize', '$scope', 'DepartmentAPI', 'toastr', 'AppConfig', 'AntiXSS',
+	function($stateParams, DepartmentNormalize, UserNormalize, $scope, DepartmentApi, toastr, AppConfig, AntiXSS){
 	var departmentId = $stateParams.departmentId;
 	var department = DepartmentNormalize.get($scope.departmentList, departmentId);
 	if(!department) return;
-	$scope.departmentName = department.name;
+	$scope.departmentName = AntiXSS.decode(department.name);
 	if(department.managerId){
 		$scope.selectedUser = UserNormalize.get($scope.userList, department.managerId);
 	}
@@ -31,7 +31,7 @@ Info.controller('DepartmentInfoCtrl', ['$stateParams', 'DepartmentNormalize', 'U
 	$scope.edit = function(){
 		var department = {};
 		department.departmentId = departmentId;
-		department.name = $scope.departmentName;
+		department.name = AntiXSS.encode($scope.departmentName);
 		if($scope.selectedUser)
 			department.managerId = $scope.selectedUser.id;
 		if($scope.selectedDepartment){

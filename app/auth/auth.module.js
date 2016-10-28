@@ -27,7 +27,6 @@ Auth.factory('Authenticate', ['$http','AppConfig', '$window', function($http, Ap
 Auth.factory('OnUnauthorized', ['$q', '$rootScope', 'AppConfig', function($q, $rootScope, AppConfig){
 	return {
 		responseError: function(res){
-			console.log(res);
 			if(res.status == 401){
 				$rootScope.$emit(AppConfig.broadcast.Unauthorized);
 			}
