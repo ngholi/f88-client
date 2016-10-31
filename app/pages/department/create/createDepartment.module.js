@@ -4,7 +4,7 @@
  * created on Oct 19, 2016
  */
 'use strict';
-var Department = angular.module('BlurAdmin.pages.department');
+var Department = angular.module('Pages.department');
 
 Department.config(['$stateProvider', function($stateProvider){
 	$stateProvider.state('main.department.create', {
@@ -15,11 +15,12 @@ Department.config(['$stateProvider', function($stateProvider){
 	});
 }])
 
-Department.controller('CreateDepartmentCtrl', ['$scope', 'DepartmentAPI', 'toastr', 'AppConfig', 'Storage', 'AntiXSS', function($scope, DepartmentService, toastr, AppConfig, Storage, AntiXSS){
+Department.controller('CreateDepartmentCtrl', ['$scope', 'DepartmentAPI', 'toastr', 'AppConfig', 'Storage',
+	function($scope, DepartmentService, toastr, AppConfig, Storage){
 
 	$scope.add = function(){
 		var department = {};
-		department.name = AntiXSS.encode($scope.departmentName);
+		department.name = $scope.departmentName;
 		if($scope.selectedUser)
 			department.managerId = $scope.selectedUser.id;
 		if($scope.selectedDepartment)

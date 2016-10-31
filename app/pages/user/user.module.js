@@ -4,7 +4,7 @@
  * created on Oct 19, 2016
  */
  'use strict';
- var User = angular.module('BlurAdmin.pages.user', ['Auth', 'ApplicationConfig']);
+ var User = angular.module('Pages.user', ['Auth', 'ApplicationConfig']);
 
  User.config(['$stateProvider', function($stateProvider){
  	$stateProvider.state('main.user', {

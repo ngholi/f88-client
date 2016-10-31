@@ -5,12 +5,13 @@
 (function () {
   'use strict';
 
-  angular.module('BlurAdmin.pages', [
+  angular.module('Pages', [
     'ui.router',
 
-    'BlurAdmin.pages.dashboard',
-    'BlurAdmin.pages.user',
-    'BlurAdmin.pages.department'
+    'Pages.dashboard',
+    'Pages.user',
+    'Pages.department',
+    'Security'
   ])
       .config(routeConfig);
 

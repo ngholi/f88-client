@@ -2,7 +2,7 @@
 /**
  * @author: H.Linh
  * created on Oct 19, 2010
- * @descript: This module provider the way to cache data
+ * @description: This module provider the way to cache data
  * was fetched from server, using window.sessionStorage
  */
  'use strict';

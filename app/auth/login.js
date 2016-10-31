@@ -1,5 +1,9 @@
 (function(){
-
+/**
+ * @author: H.Linh
+ * created on Oct 11, 2016
+ * @Description: This module controls login page
+ */
 'use strict';
 
 var Login = angular.module('Login', ['Auth', 'ui.router', 'ApplicationConfig']);

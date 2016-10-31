@@ -4,7 +4,7 @@
  * created on Oct 19, 2016
  */
  'use strict';
- var Department = angular.module('BlurAdmin.pages.department');
+ var Department = angular.module('Pages.department');
 
  Department.factory('DepartmentAPI', ['$http', 'AppConfig', '$q', function($http, AppConfig, $q){
  	return {
@@ -32,41 +32,41 @@
  	}
  }]);
 
- Department.factory('DepartmentNormalize', function(){
- 	return {
- 		toTree: function(departmentList){
- 			return departmentList.map(function(value){
- 				return {
-			        id: value.id,
-			        parent: value.parentDepartmentId || '#',
-			        type: 'folder',
-			        text: value.name,
-			        state: {
-			            opened: false
-			        }
-		        };
- 			});
- 		},
- 		get: function(departmentList, id){
- 			return departmentList.filter(function(value){
- 				return value.id == id;
- 			})[0];
- 		},
- 		getIndex: function(departmentList, id){
- 			return departmentList.findIndex(function(value){
- 				return value.id == id;
- 			});
- 		},
- 		replace: function(departmentList, department){
- 			var index = this.getIndex(departmentList, department.id);
- 			if(index > -1)
- 				departmentList[index] = department;
- 		},
- 		add: function(departmentList, department){
- 			departmentList.push(department);
- 		}
- 	};
- });
+ Department.factory('DepartmentNormalize', ['AntiXSS', function(AntiXSS){
+  	return {
+  		toTree: function(departmentList){
+  			return departmentList.map(function(value){
+  				return {
+ 			        id: value.id,
+ 			        parent: value.parentDepartmentId || '#',
+ 			        type: 'folder',
+ 			        text: AntiXSS.encode(value.name),
+ 			        state: {
+ 			            opened: false
+ 			        }
+ 		        };
+  			});
+  		},
+  		get: function(departmentList, id){
+  			return departmentList.filter(function(value){
+  				return value.id == id;
+  			})[0];
+  		},
+  		getIndex: function(departmentList, id){
+  			return departmentList.findIndex(function(value){
+  				return value.id == id;
+  			});
+  		},
+  		replace: function(departmentList, department){
+  			var index = this.getIndex(departmentList, department.id);
+  			if(index > -1)
+  				departmentList[index] = department;
+  		},
+  		add: function(departmentList, department){
+  			departmentList.push(department);
+  		}
+  	};
+  }]);
 
 
 })();

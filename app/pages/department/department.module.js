@@ -4,7 +4,7 @@
  * created on Oct 18, 2016
  */
 'use strict';
-angular.module('BlurAdmin.pages.department', ['ApplicationConfig', 'SessionStorage'])
+angular.module('Pages.department', ['ApplicationConfig', 'SessionStorage'])
 	.config(['$stateProvider', routeConfig])
 	.config(function(){
     $.jstree.defaults.core.themes.url = true;

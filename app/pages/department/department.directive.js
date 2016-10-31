@@ -4,7 +4,7 @@
  * created on Oct 18, 2016
  */
 'use strict';
-var Department = angular.module('BlurAdmin.pages.department');
+var Department = angular.module('Pages.department');
 
 Department.directive('selectpicker', selectpicker);
 

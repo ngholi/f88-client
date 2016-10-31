@@ -1,5 +1,9 @@
 (function(){
-
+/**
+ * @author: H.Linh
+ * created on Oct 11, 2016
+ * @Description: This module provides the helpful solution for authentication
+ */
 'use strict';
 var Auth = angular.module('Auth', ['ui.router', 'ApplicationConfig']);
 

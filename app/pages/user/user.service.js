@@ -4,7 +4,7 @@
  * created on Oct 19, 2016
  */
  'use strict';
-var User = angular.module('BlurAdmin.pages.user');
+var User = angular.module('Pages.user');
 
 User.factory('UserAPI', ['$http', 'AppConfig', '$q', function($http, AppConfig, $q){
 	return {

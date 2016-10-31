@@ -32,7 +32,7 @@ angular.module('ApplicationConfig', [])
 		EDIT_FAIL: 'Edit fail',
 		ERROR_SELF_DEPEND: 'Department can\'t belong to itself. Please choose another department!',
 		CANT_CONNECT_TO_SERVER: 'Can\'t connect to server',
-		TRY_CONNECT_TO_API_FIRST: 'There are some connection issues. Tap to try connect to ' + apiHost,
+		TRY_CONNECT_TO_API_FIRST: 'There are some connection issues. Tap to try connect to server',
 	},
 	broadcast: {
 		Unauthorized: 'Unauthorized',

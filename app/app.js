@@ -15,8 +15,8 @@ angular.module('MainApp', [
 
   'BlurAdmin.theme',
   'SessionStorage',
-  'ApplicationConfig',
-  'BlurAdmin.pages',
+  'ApplicationConfig', 'Security',
+  'Pages',
   'Auth', 'Login'
 ]).config(['$stateProvider', 'toastrConfig', '$httpProvider', function($stateProvider, toastrConfig, $httpProvider){
   $stateProvider
@@ -44,8 +44,8 @@ angular.module('MainApp', [
     maxOpened: 0,    
     newestOnTop: true,
     positionClass: 'toast-top-right',
-    preventDuplicates: false,
-    preventOpenDuplicates: false,
+    preventDuplicates: true,
+    preventOpenDuplicates: true,
     target: 'body'
   });
 
@@ -110,26 +110,4 @@ angular.module('MainApp', [
       return $q.reject(res);
     }
   };
-}])
-.factory('AntiXSS', function(){
-  return {
-    encode: function(str){
-      return str
-        .replace(/&/g, '&amp;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/\//g, '&#x2F;');
-    },
-    decode: function(str){
-      return str
-        .replace(/&quot;/g, '"')
-        .replace(/&#39;/g, "'")
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&amp;/g, '&')
-        .replace(/&#x2F;/g, '/');
-    }
-  };
-});
+}]);

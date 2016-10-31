@@ -4,10 +4,10 @@
  * created on Oct 18, 2016
  */ 
  'use strict';
- var Department = angular.module('BlurAdmin.pages.department');
+ var Department = angular.module('Pages.department');
  
- Department.controller('DepartmentCtrl', ['$scope', '$state', 'Storage', 'AppConfig', 'DepartmentNormalize', '$timeout', 
-  function($scope, $state, Storage, AppConfig, Normalize, $timeout){
+ Department.controller('DepartmentCtrl', ['$scope', '$state', 'Storage', 'AppConfig', 'DepartmentNormalize', '$timeout', 'AntiXSS',
+  function($scope, $state, Storage, AppConfig, Normalize, $timeout, AntiXSS){
  	$scope.basicConfig = {
       core: {
         multiple: false,
@@ -103,7 +103,7 @@
 
     //update tree
     var selected = $scope.treeData[Normalize.getIndex($scope.treeData, department.id)];
-    selected.text = department.name;
+    selected.text = AntiXSS.encode(department.name);
     selected.parent = department.parentDepartmentId || '#';
     $scope.basicConfig.version++;
   });
@@ -122,7 +122,7 @@
       id: department.id,
       parent: department.parentDepartmentId || '#',
       type: 'folder',
-      text: department.name,
+      text: AntiXSS.encode(department.name),
       state: {
         opened: false
       }

@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  angular.module('BlurAdmin.pages.user')
+  angular.module('Pages.user')
     .config(routeConfig)
 
     .controller('RegisterCtrl', ['$scope', 'UserAPI', 'toastr', 'AppConfig', '$timeout', function($scope, userApi, toastr, AppConfig, $timeout){
